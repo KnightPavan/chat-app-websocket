@@ -2,6 +2,7 @@ import User from '../models/user.model.js'
 
 export const getUsersForSidebar = async (req, res) => {
   try {
+    console.log('Database accessed for users list')
     const { _id: loggedInUser } = req.user
 
     const allUsers = await User.find({ _id: { $ne: loggedInUser } }).select(

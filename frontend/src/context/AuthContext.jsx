@@ -1,6 +1,6 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
-const AuthContext = createContext(null)
+const AuthContext = createContext()
 
 export const useAuthContext = () => {
   return useContext(AuthContext)

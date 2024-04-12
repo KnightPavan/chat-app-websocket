@@ -1,6 +1,24 @@
 import { Link } from 'react-router-dom'
+import useLogin from '../../hooks/useLogin.js'
+import { useState } from 'react'
 
 const Login = () => {
+  const [loginInputs, setLoginInputs] = useState({
+    userName: '',
+    password: ''
+  })
+
+  const { loading, login } = useLogin()
+
+  const handleLoginSubmit = e => {
+    e.preventDefault()
+
+    login({
+      ...loginInputs,
+      userName: loginInputs.userName.trimEnd()
+    })
+  }
+
   return (
     <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
       <div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
@@ -9,7 +27,7 @@ const Login = () => {
           <span className='text-blue-500'> ChatApp</span>
         </h1>
 
-        <form>
+        <form onSubmit={handleLoginSubmit}>
           <div>
             <label className='label p-2'>
               <span className='text-base label-text'>Username</span>
@@ -18,6 +36,10 @@ const Login = () => {
               type='text'
               placeholder='Enter username'
               className='w-full input input-bordered h-10'
+              value={loginInputs.userName}
+              onChange={e =>
+                setLoginInputs({ ...loginInputs, userName: e.target.value })
+              }
             />
           </div>
           <div>
@@ -25,9 +47,13 @@ const Login = () => {
               <span className='text-base label-text'>Password</span>
             </label>
             <input
-              type='text'
-              placeholder='Enter username'
+              type='password'
+              placeholder='Enter Password'
               className='w-full input input-bordered h-10'
+              value={loginInputs.password}
+              onChange={e =>
+                setLoginInputs({ ...loginInputs, password: e.target.value })
+              }
             />
           </div>
           <Link
@@ -37,7 +63,14 @@ const Login = () => {
             Don't have an account
           </Link>
           <div>
-            <button className='btn btn-block btn-sm mt-2'>Login</button>
+            <button className='btn btn-block btn-sm mt-2' disabled={loading}>
+              {' '}
+              {loading ? (
+                <span className='loading loading-spinner'></span>
+              ) : (
+                'Login'
+              )}
+            </button>
           </div>
         </form>
       </div>

@@ -5,10 +5,12 @@ import generateTokenAndSetCookie from '../utils/generateToken.js'
 export const login = async (req, res) => {
   try {
     const { userName, password } = req.body
+
     const user = await User.findOne({ userName: userName })
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      user.password || ''
+      user?.password || ''
     )
 
     if (!user || !isPasswordCorrect) {
